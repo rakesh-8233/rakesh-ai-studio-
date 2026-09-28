@@ -1,1 +1,163 @@
 
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAKESH AI STUDIO</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#090914;color:white;
+  font-family:Arial,sans-serif;
+}
+header{
+  padding:22px 18px;
+  background:linear-gradient(135deg,#17102f,#251052);
+  border-bottom:1px solid #30234e;
+}
+.logo{font-size:23px;font-weight:bold;color:#c4a7ff}
+header p{color:#bcb5d4;font-size:13px}
+main{max-width:650px;margin:auto;padding:18px}
+.tabs{display:flex;gap:10px;margin:15px 0 22px}
+.tabs button{
+  flex:1;padding:14px 8px;border-radius:12px;
+  border:1px solid #3b3155;background:#171525;
+  color:#ddd;font-size:15px;font-weight:bold;
+}
+.tabs button.active{background:#7545e8;color:white}
+h2{font-size:23px;margin-bottom:8px}
+.sub{color:#a8a3bd;font-size:14px;line-height:1.6}
+label{display:block;margin:20px 0 9px;font-weight:bold}
+textarea{
+  width:100%;height:125px;padding:15px;
+  background:#151423;border:1px solid #39324f;
+  border-radius:13px;color:white;font-size:15px;
+  resize:vertical;outline:none;
+}
+.upload{
+  display:block;text-align:center;padding:20px;
+  border:1px dashed #65518c;border-radius:13px;
+  background:#151423;color:#d7c6ff;
+}
+.upload input{width:100%;margin-top:14px}
+#preview{max-width:100%;max-height:260px;
+  display:none;margin:15px auto;border-radius:12px}
+select{
+  width:100%;padding:14px;background:#151423;
+  color:white;border:1px solid #39324f;
+  border-radius:12px;font-size:15px;
+}
+.generate{
+  width:100%;padding:16px;margin-top:22px;
+  border:0;border-radius:13px;
+  background:linear-gradient(100deg,#7746ef,#b04de8);
+  color:white;font-size:17px;font-weight:bold;
+}
+.note{
+  margin-top:18px;padding:14px;background:#171525;
+  border-radius:12px;color:#bdb4d6;
+  font-size:13px;line-height:1.6;
+}
+footer{text-align:center;color:#746c8e;padding:25px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">✦ RAKESH AI STUDIO</div>
+  <p>AI Photo & Video Generator</p>
+</header>
+
+<main>
+  <div class="tabs">
+    <button id="photoTab" class="active" onclick="setMode('photo')">📸 Photo AI</button>
+    <button id="videoTab" onclick="setMode('video')">🎬 Video AI</button>
+  </div>
+
+  <h2 id="heading">AI Photo Generator</h2>
+  <p class="sub" id="description">
+    Apne idea ko likhiye aur AI se photo banane ke liye prompt taiyar kijiye.
+  </p>
+
+  <label for="prompt">✍️ Apna Prompt Likhein</label>
+  <textarea id="prompt" placeholder="Example: A handsome Indian boy standing on a rainy road, cinematic lighting, realistic 4K photo..."></textarea>
+
+  <label>🖼️ Apni Photo Upload Karein</label>
+  <div class="upload">
+    Photo select karein
+    <input type="file" id="file" accept="image/*">
+    <img id="preview" alt="Uploaded photo preview">
+  </div>
+
+  <div id="ratioBox">
+    <label for="ratio">📐 Photo Size</label>
+    <select id="ratio">
+      <option value="1:1">Square (1:1)</option>
+      <option value="4:5">Portrait (4:5)</option>
+      <option value="16:9">Landscape (16:9)</option>
+      <option value="9:16">Story (9:16)</option>
+    </select>
+  </div>
+
+  <div id="durationBox" style="display:none">
+    <label for="duration">⏱️ Video Duration</label>
+    <select id="duration">
+      <option value="5">5 Seconds</option>
+      <option value="10">10 Seconds</option>
+    </select>
+  </div>
+
+  <button class="generate" onclick="generate()">✨ Generate</button>
+
+  <div class="note" id="notice">
+    💡 Abhi ye app ka demo interface hai. Asli AI photo banane ke liye AI API connect karni hogi.
+  </div>
+</main>
+
+<footer>RAKESH AI STUDIO • Create with AI</footer>
+
+<script>
+let mode = "photo";
+
+function setMode(value){
+  mode = value;
+  document.getElementById("photoTab").classList.toggle("active",value==="photo");
+  document.getElementById("videoTab").classList.toggle("active",value==="video");
+  document.getElementById("heading").textContent =
+    value==="photo" ? "AI Photo Generator" : "AI Video Generator";
+  document.getElementById("description").textContent =
+    value==="photo"
+    ? "Apne idea ko likhiye aur AI se photo banane ke liye prompt taiyar kijiye."
+    : "Apne idea ko likhiye aur AI se video banane ke liye prompt taiyar kijiye.";
+  document.getElementById("ratioBox").style.display =
+    value==="photo" ? "block" : "none";
+  document.getElementById("durationBox").style.display =
+    value==="video" ? "block" : "none";
+  document.getElementById("notice").textContent =
+    value==="photo"
+    ? "💡 Photo generation ke liye AI API connect karni hogi."
+    : "💡 Video generation ke liye AI video API connect karni hogi.";
+}
+
+document.getElementById("file").addEventListener("change",function(){
+  const file=this.files[0];
+  if(file){
+    const preview=document.getElementById("preview");
+    preview.src=URL.createObjectURL(file);
+    preview.style.display="block";
+  }
+});
+
+function generate(){
+  const prompt=document.getElementById("prompt").value.trim();
+  if(!prompt){
+    alert("Pehle apna prompt likhiye!");
+    return;
+  }
+  alert("Aapka prompt taiyar hai! Asli AI generation shuru karne ke liye API connect karni baki hai.");
+}
+</script>
+</body>
+  </html>
+  
